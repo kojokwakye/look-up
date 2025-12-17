@@ -98,24 +98,13 @@ you should see a notification with the definition of "hello".
    - **Name:** `Dictionary Lookup`
    - **Command:** `/home/YOUR_USERNAME/Documents/script/lookup.sh`
      - Replace `YOUR_USERNAME` with your actual username (e.g., `/home/kwakye/Documents/script/lookup.sh`)
-6. Click **"set shortcut"**
-7. Press **Ctrl+Shift+D** on your keyboard
-8. Click **"Add"** to save
+6. click **"set shortcut"**
+7. press **Ctrl+Shift+D** on your keyboard
+8. click **"add"** to save
 
-## Step 5: Test the Complete Workflow
+## usage
 
-1. Open any application (browser, text editor, etc.)
-2. Select and copy a word using **Ctrl+C**
-3. Press **Ctrl+Shift+D**
-4. A notification should appear with the word's definition
-
-## Usage
-
-1. **Select and copy** any word using your mouse and Ctrl+C
-2. **Press Ctrl+Shift+D** to see the definition
+1. **select and copy** any word using your mouse and Ctrl+C
+2. **press Ctrl+Shift+D** to see the definition
 3. The definition will appear as a desktop notification for 10 seconds  
 
-
-<video width="620" height="340" controls>
-  <source src="video demo/scrncst.webm" type="video/webm">
-</video>
