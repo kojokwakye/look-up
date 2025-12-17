@@ -29,7 +29,7 @@ xclip -o -selection clipboard
 
 create a directory for your scripts:
 ```bash
-mkdir -p ~/Document/script
+mkdir -p ~/Documents/script
 ```
 
 create the script file:
