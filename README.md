@@ -57,8 +57,8 @@ if [ -z "$word" ]; then
     exit 1
 fi
 
-# clean the word (first word only, lowercase, remove punctuation)
-word=$(echo "$word" | awk '{print $1}' | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z]//g')
+# clean the word (first word only, lowercase, remove only trailing punctuation)
+word=$(echo "$word" | awk '{print $1}' | tr '[:upper:]' '[:lower:]' | sed 's/[.,!?;:]$//')
 
 # exit if word is empty after cleaning
 if [ -z "$word" ]; then
@@ -79,16 +79,16 @@ definition=$(sdcv -n -u "WordNet" "$word" 2>&1)
 if echo "$definition" | grep -qi "Nothing similar\|not found"; then
     notify-send "dictionary: $word" "no definition found"
 else
+    # clean the definition output
     clean_def=$(echo "$definition" | \
-                grep -v "^Found\|^-->\|^test\|^[[:space:]]*$" | \
+                grep -v "^Found\|^-->\|^$word$\|^[[:space:]]*$" | \
                 sed 's/^[[:space:]]*n [0-9]*://; s/^[[:space:]]*v [0-9]*://;
                      s/^[[:space:]]*adj [0-9]*://; s/^[[:space:]]*adv [0-9]*://;
                      s/\[syn:.*\]//g; s/^[[:space:]]*//; s/[[:space:]]*$//' | \
-                grep -v "^[[:space:]]*$" | \
-                head -n 3)
+                grep -v "^[[:space:]]*$")
 
     if [ -n "$clean_def" ]; then
-        notify-send -t 8000 "$word" "$clean_def"
+        notify-send -t 15000 "$word" "$clean_def"
     else
         notify-send "dictionary: $word" "no readable definition"
     fi
