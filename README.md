@@ -133,5 +133,12 @@ you should see a notification with the definition of "hello".
 1. **select and copy** any word using your mouse and Ctrl+C
 2. **press Ctrl+Shift+D** to see the definition
 3. The definition will appear as a desktop notification for 10 seconds
-[Screencast From 2025-12-18 14-00-27.webm](https://github.com/user-attachments/assets/8e9a9258-c420-4b6b-ba56-5808729e2493)
+
+
+## demo 
+
+https://github.com/user-attachments/assets/90a3ca62-ec3f-4bfa-8feb-8c8165867dc3
+
+
+
 
