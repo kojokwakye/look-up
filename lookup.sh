@@ -1,34 +1,48 @@
 #!/bin/bash
-# Simple dictionary lookup script
+# simple dictionary lookup script
 
-# Get clipboard content
+# get content from clipboard
 word=$(xclip -o -selection clipboard 2>/dev/null)
 
-# Exit if clipboard is empty
+# exit if clipboard is empty
 if [ -z "$word" ]; then
-    notify-send -- "Dictionary" "No text in clipboard"
+    notify-send "dictionary" "no text in clipboard"
     exit 1
 fi
 
-# Clean the word (first word only, lowercase)
-word=$(echo "$word" | awk '{print $1}' | tr '[:upper:]' '[:lower:]')
+# clean the word (first word only, lowercase, remove punctuation)
+word=$(echo "$word" | awk '{print $1}' | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z]//g')
 
-# Look up word in WordNet (English dictionary only)
+# exit if word is empty after cleaning
+if [ -z "$word" ]; then
+    notify-send "dictionary" "invalid word"
+    exit 1
+fi
+
+# check if sdcv is installed
+if ! command -v sdcv &> /dev/null; then
+    notify-send "dictionary error" "sdcv not installed"
+    exit 1
+fi
+
+# look up word in wordnet dictionary
 definition=$(sdcv -n -u "WordNet" "$word" 2>&1)
 
-# Check if definition was found
+# check if definition was found
 if echo "$definition" | grep -qi "Nothing similar\|not found"; then
-    notify-send -- "Dictionary: $word" "No definition found"
+    notify-send "dictionary: $word" "no definition found"
 else
-    # Extract and clean the definition
     clean_def=$(echo "$definition" | \
-                grep -v "^Found\|^-->\|^test\|^$word$" | \
-                sed 's/^[[:space:]]*n [0-9]*://; s/^[[:space:]]*v [0-9]*://; s/\[syn:.*\]//g' | \
-                sed 's/^[[:space:]]*//; s/[[:space:]]*$//' | \
+                grep -v "^Found\|^-->\|^test\|^[[:space:]]*$" | \
+                sed 's/^[[:space:]]*n [0-9]*://; s/^[[:space:]]*v [0-9]*://; 
+                     s/^[[:space:]]*adj [0-9]*://; s/^[[:space:]]*adv [0-9]*://;
+                     s/\[syn:.*\]//g; s/^[[:space:]]*//; s/[[:space:]]*$//' | \
                 grep -v "^[[:space:]]*$" | \
-                head -n 3 | \
-                tr '\n' ' ' | \
-                sed 's/[[:space:]]\+/ /g')
+                head -n 3)
     
-    notify-send -- "$word" "$clean_def"
+    if [ -n "$clean_def" ]; then
+        notify-send -t 8000 "$word" "$clean_def"
+    else
+        notify-send "dictionary: $word" "no readable definition"
+    fi
 fi
