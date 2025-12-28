@@ -73,7 +73,7 @@ chmod +x ~/Documents/script/lookup.sh
 ```
 
 
-### step 6: set up keyboard shortcut
+### step 5: set up keyboard shortcut
 
 1. open **settings** → **keyboard** → **keyboard shortcuts**
 2. scroll down and click **"view and customize shortcuts"**
